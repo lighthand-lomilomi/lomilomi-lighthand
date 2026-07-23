@@ -330,6 +330,35 @@
     opacity: 0.55;
   }
 
+  /* Booking / calendar embed */
+  .booking-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 20px;
+    box-shadow: 0 10px 30px rgba(44, 95, 111, 0.06);
+    overflow: hidden;
+  }
+
+  .booking-note {
+    font-size: 14.5px;
+    text-align: center;
+    color: var(--ocean-deep);
+    margin: 0 0 20px;
+  }
+
+  .booking-frame {
+    width: 100%;
+    height: 640px;
+    border: 0;
+    border-radius: 12px;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .booking-frame { height: 560px; }
+  }
+
   /* Footer / CTA */
   footer {
     position: relative;
@@ -383,6 +412,7 @@
     <div class="site-nav-inner">
       <a href="#features">療程特色</a>
       <a href="#pricing">時間收費</a>
+      <a href="#booking">線上預約</a>
       <a href="#cautions">注意事項</a>
       <a href="個人簡介.html#about">個人簡介</a>
       <a href="療癒日記.html">療癒日記</a>
@@ -450,6 +480,18 @@
     </div>
   </section>
 
+  <section id="booking">
+    <div class="wrap">
+      <span class="section-eyebrow">BOOK YOUR SESSION</span>
+      <h2><svg class="h2-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 C13 8 14 10 21 12 C14 14 13 16 12 22 C11 16 10 14 3 12 C10 10 11 8 12 2 Z"/></svg>線上預約</h2>
+      <p class="booking-note">目前開放 9 月份，每週一至週三 下午 1:00–4:00，點選下方日期即可直接預約</p>
+      <div class="booking-card">
+        <iframe class="booking-frame" src="https://calendar.google.com/calendar/appointments/schedules/AcZssZ0JpqhpjHK7d4JLkQ_ExmsOZ37P6RZyk2_lQ_lPsLzmGvmaw5nN2ogJxQZnEGYunERqTWcf2pI-?gv=true" loading="lazy"></iframe>
+      </div>
+      <p class="note" style="text-align:center; margin-top:16px;">送出預約後，我會再透過 LINE 與您再次確認預約成功的時段，謝謝您。</p>
+    </div>
+  </section>
+
   <section class="cautions-section" id="cautions">
     <div class="wrap">
       <span class="section-eyebrow">GOOD TO KNOW</span>
@@ -467,7 +509,7 @@
     <img class="doodle d-footer" src="doodle_star_moon.png" alt="">
     <svg class="footer-star" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 C13 8 14 10 21 12 C14 14 13 16 12 22 C11 16 10 14 3 12 C10 10 11 8 12 2 Z"/></svg>
     <p class="invite">如果你也想留一段時間陪伴自己</p>
-    <a class="ig-btn" href="https://calendar.app.google/Jkxoaoh5KFYELURt9" target="_blank" rel="noopener">我要預約</a>
+    <a class="ig-btn" href="#booking">我要預約</a>
     <img class="logo-mark" src="light_hand_logo_white.png" alt="Light Hand 光之手 logo">
     <div class="handle">@light_hand_lomilomi</div>
   </footer>
