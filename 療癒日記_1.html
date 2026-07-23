@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>療癒日記 | Lomi Lomi 療癒之觸</title>
+<style>
+  :root {
+    --ocean-deep: #2c5f6f;
+    --ocean-mid: #276269;
+    --ocean-soft: #3b8486;
+    --wave-light: #a4ded4;
+    --sand: #faf6ef;
+    --sand-warm: #f2e9db;
+    --coral: #e3a583;
+    --text: #3a4a4d;
+  }
+
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--sand);
+    color: var(--text);
+    font-family: "PingFang TC", "Noto Sans TC", "Hiragino Sans GB", -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.9;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  section {
+    scroll-margin-top: 60px;
+    padding: 84px 0;
+  }
+
+  /* Sticky nav */
+  .site-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(250, 246, 239, 0.94);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 2px 12px rgba(44, 95, 111, 0.08);
+  }
+
+  .site-nav-inner {
+    max-width: 640px;
+    margin: 0 auto;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    padding: 12px 16px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .site-nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  .site-nav a {
+    flex: 0 0 auto;
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: var(--ocean-deep);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .site-nav a:hover,
+  .site-nav a:active,
+  .site-nav a.current {
+    background: var(--ocean-deep);
+    color: #fff;
+  }
+
+  .wrap {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  /* Page header */
+  .page-header {
+    position: relative;
+    padding: 90px 28px 70px;
+    text-align: center;
+    background:
+      linear-gradient(180deg, rgba(250,246,239,0.55) 0%, rgba(250,246,239,0.2) 45%, rgba(238,245,244,0.9) 100%),
+      url("照片/個人簡介/_DSC0788.JPG") center 42%/cover no-repeat;
+  }
+
+  .header-logo {
+    width: 90px;
+    height: auto;
+    display: block;
+    margin: 0 auto 16px;
+    filter: drop-shadow(0 2px 8px rgba(22,60,74,0.35));
+  }
+
+  .page-header h1 {
+    font-size: clamp(20px, 6.5vw, 28px);
+    font-weight: 600;
+    color: var(--ocean-deep);
+    margin: 0 0 14px;
+    letter-spacing: 0.05em;
+  }
+
+  .page-header p {
+    font-size: clamp(10.5px, 2.9vw, 15px);
+    color: var(--text);
+    margin: 0 auto;
+    opacity: 0.85;
+  }
+
+  .wave {
+    display: block;
+    width: 100%;
+    height: 60px;
+  }
+
+  .section-eyebrow {
+    display: block;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--ocean-mid);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.85;
+  }
+
+  h2 {
+    font-size: 19px;
+    color: var(--ocean-deep);
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    margin: 0 0 40px;
+    text-align: center;
+    position: relative;
+  }
+
+  h2::after {
+    content: "";
+    display: block;
+    width: 28px;
+    height: 1px;
+    background: var(--coral);
+    margin: 18px auto 0;
+    opacity: 0.7;
+  }
+
+  .h2-star {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    color: var(--coral);
+    vertical-align: -2px;
+    margin-right: 6px;
+  }
+
+  .diary-video {
+    display: block;
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(44, 95, 111, 0.16);
+    background: #000;
+    margin-bottom: 30px;
+  }
+
+  .coming-soon {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 56px 32px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(44, 95, 111, 0.06);
+  }
+
+  .coming-soon .icon {
+    color: var(--wave-light);
+    width: 64px;
+    height: 56px;
+    margin: 0 auto 22px;
+    display: block;
+  }
+
+  .coming-soon p {
+    font-size: 15.5px;
+    color: var(--text);
+    margin: 0 0 8px;
+  }
+
+  .coming-soon .sub {
+    font-size: 13.5px;
+    color: var(--ocean-mid);
+    opacity: 0.75;
+  }
+
+  /* Diary entry */
+  .diary-entry {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 46px 32px;
+    box-shadow: 0 10px 30px rgba(44, 95, 111, 0.06);
+    margin-bottom: 26px;
+  }
+
+  .diary-entry p.body-text {
+    font-size: 15px;
+    color: var(--text);
+    text-align: center;
+    margin: 0 0 22px;
+  }
+
+  .diary-divider {
+    display: block;
+    text-align: center;
+    color: var(--coral);
+    opacity: 0.6;
+    margin: 0 0 22px;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+  }
+
+  .diary-entry .namaste {
+    text-align: center;
+    color: var(--ocean-deep);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    margin: 0;
+  }
+
+  /* Testimonial */
+  .testimonial-photo {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 18px;
+    box-shadow: 0 12px 32px rgba(44, 95, 111, 0.14);
+    margin: 0 0 30px;
+  }
+
+  .testimonial-card {
+    position: relative;
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 46px 28px 30px;
+    box-shadow: 0 10px 30px rgba(44, 95, 111, 0.06);
+    margin-bottom: 26px;
+  }
+
+  .testimonial-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .testimonial-mark {
+    position: absolute;
+    top: 6px;
+    left: 24px;
+    font-size: 54px;
+    color: var(--coral);
+    opacity: 0.45;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1;
+  }
+
+  .testimonial-card p.body-text {
+    font-size: 14.5px;
+    color: var(--text);
+    text-align: left;
+    opacity: 0.92;
+  }
+
+  .testimonial-source {
+    margin-top: 18px;
+    text-align: right;
+    font-size: 13px;
+    color: var(--ocean-mid);
+    opacity: 0.7;
+  }
+
+  /* Footer / CTA */
+  footer {
+    position: relative;
+    padding: 70px 28px 90px;
+    text-align: center;
+    background: linear-gradient(180deg, #eef5f4 0%, var(--ocean-soft) 100%);
+  }
+
+  footer p.invite {
+    font-size: 16px;
+    color: var(--ocean-deep);
+    margin-bottom: 28px;
+    letter-spacing: 0.03em;
+  }
+
+  .footer-star {
+    color: var(--coral);
+    opacity: 0.8;
+    margin-bottom: 6px;
+  }
+
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+
+  .ig-btn {
+    display: inline-block;
+    padding: 14px 36px;
+    background: var(--ocean-deep);
+    color: #fff;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 15px;
+    letter-spacing: 0.08em;
+    box-shadow: 0 8px 20px rgba(44, 95, 111, 0.25);
+    transition: transform 0.2s ease;
+  }
+
+  .ig-btn.secondary {
+    background: #ffffff;
+    color: var(--ocean-deep);
+    box-shadow: 0 8px 20px rgba(44, 95, 111, 0.12);
+    border: 1px solid var(--ocean-deep);
+  }
+
+  .ig-btn:active { transform: scale(0.97); }
+
+  .back-home {
+    display: inline-block;
+    margin-top: 20px;
+    font-size: 13px;
+    color: var(--ocean-deep);
+    opacity: 0.75;
+    letter-spacing: 0.05em;
+    text-decoration: underline;
+  }
+
+  .logo-mark {
+    width: 140px;
+    height: auto;
+    display: block;
+    margin: 36px auto 22px;
+  }
+
+  .handle {
+    margin-top: 18px;
+    font-size: 13px;
+    color: var(--ocean-deep);
+    opacity: 0.7;
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 480px) {
+    .page-header { padding: 64px 22px 50px; }
+    section { padding: 60px 0; }
+    .coming-soon { padding: 44px 24px; }
+  }
+</style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <div class="site-nav-inner">
+      <a href="個人簡介.html#about">我的故事</a>
+      <a href="index.html#features">療程特色</a>
+      <a href="index.html#pricing">時間收費</a>
+      <a href="index.html#cautions">注意事項</a>
+      <a href="index.html#booking">線上預約</a>
+      <a href="療癒日記.html" class="current">療癒日記</a>
+    </div>
+  </nav>
+
+  <div class="page-header">
+    <img class="header-logo" src="light_hand_logo_white.png" alt="Light Hand 光之手 logo">
+    <h1>療癒日記</h1>
+    <p>紀錄個案回饋、生活日常與療程心得</p>
+  </div>
+
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,60 480,0 720,20 C960,40 1200,10 1440,30 L1440,60 L0,60 Z" fill="#eef5f4"/>
+  </svg>
+
+  <section id="diary">
+    <div class="wrap">
+      <span class="section-eyebrow">JOURNAL</span>
+      <h2><svg class="h2-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 C13 8 14 10 21 12 C14 14 13 16 12 22 C11 16 10 14 3 12 C10 10 11 8 12 2 Z"/></svg>療癒日記</h2>
+      <video class="diary-video" src="照片/個人簡介/524aab5d87248de160596bfbfd86ae0e 2.MP4" controls playsinline preload="metadata"></video>
+
+      <div class="diary-entry">
+        <p class="body-text">在大地母親的懷抱空間裡<br>展開一場療癒按摩</p>
+        <p class="body-text">吸氣 我感受母親的力量<br>呼氣 我回到源頭</p>
+        <p class="body-text">吸氣 我成為光<br>呼氣 我成為流動的愛</p>
+        <p class="body-text">吸氣 靈魂的愛擴展無限<br>呼氣 靈魂的碰觸為彼此祈禱</p>
+
+        <span class="diary-divider">✦ ✦ ✦</span>
+
+        <p class="body-text">在這裏 ——<br>植物的氣息像精靈翅膀舞動</p>
+        <p class="body-text">薰衣草的溫柔<br>綠豆蔻的暖意<br>甜橙的明亮 淡淡地草根香～</p>
+        <p class="body-text">有快樂的旋律在手心圍繞<br>植物的香氣 讓心微笑</p>
+
+        <span class="diary-divider">✦ ✦ ✦</span>
+
+        <p class="body-text">朋友說<br>腹部按摩的韻律<br>像回到了宇宙的原點<br>看見生命能量誕生的瞬間<br>宇宙初始的光 正在體內甦醒</p>
+        <p class="body-text">當手指推開胃部緊繃的那一刻<br>好像有什麼堵住很久的東西<br>突然被疏通了</p>
+
+        <span class="diary-divider">✦ ✦ ✦</span>
+
+        <p class="body-text">順著心流<br>像海洋的潮汐 輕輕漫過指尖</p>
+        <p class="body-text">一層一層地 釋放 沖刷 回流</p>
+
+        <span class="diary-divider">✦ ✦ ✦</span>
+
+        <p class="body-text">那些沉積已久的疲憊<br>還有我們一起流下的眼淚<br>最後都幻化成光<br>幻化成祝福</p>
+
+        <span class="diary-divider">✦ ✦ ✦</span>
+
+        <p class="body-text">燭光靜靜的閃爍著</p>
+        <p class="body-text">今天<br>海洋母親吟唱著歌<br>我心裡也找到了解答</p>
+        <p class="body-text">祂說——<br>「生命沒有答案，所有的一切，都只是過程」</p>
+        <p class="body-text">謝謝大海<br>謝謝燭光<br>謝謝我們的相遇<br>在夢裡 在雪山療癒的空間</p>
+        <p class="namaste">Namaste 🙏</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-mark">&ldquo;</div>
+        <p class="body-text">在育兒最低潮的那段日子裡，遠在美國的我，分享著孩子成長的照片與生活點滴，那些文字與故事，陪伴著妳走過許多孤單與疲憊。當我想放棄的時候，看見妳的勇敢，讓我有繼續前進的力量。</p>
+        <p class="body-text">說到我的眼眶不停的掉眼淚。我知道，當媽媽的那種抨擊、疲憊、心力交瘁時，是多麼的渴望有一個「光亮」能對妳說～辛苦妳了！我們會很好的！我們都是最棒的！我們相互擁抱。</p>
+        <p class="body-text" style="margin-bottom:0;">謝謝妳告訴我這麼多，原來我曾經寫下的文字紀錄，可以支持到彼此在另一個人的生命裡，成為支撐她走下去的力量。</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-mark">&ldquo;</div>
+        <p class="body-text">我其實對自己的雙手外表沒有太多自信，不像一般女孩那樣白皙細緻。這雙手總是在泥土裡工作，與植物相伴，曬的黝黑又厚實。我也會擔心這樣的手，觸碰在別人的肌膚上，會不會少了一點柔軟？</p>
+        <p class="body-text">但妳說：當我的手包覆著妳腳踝的瞬間，妳感受到的是「我對所有生命的尊重」。這雙接觸泥土地的手，像大樹深深扎根於大地，安穩且有力量。</p>
+        <p class="body-text">手心像浪潮般一波一波緩慢地推進時，妳說：謝謝妳的溫柔～「我的身體好像一塊泥土，被妳的雙手慢慢地鬆開、整理、捏塑。」最後，我好像重新看見了原本的自己。那個一直都存在著，原本就明亮、美麗的自己。</p>
+        <p class="body-text">後來妳說了一句讓我深深記得的話。妳說：「如果每個人在生命最後的時刻，都能這樣被好好地碰觸、溫柔地包覆。那麼離開的時候，一定會很安心吧。」我又哭了！直接衝出房間外，抓了一整包衛生紙擦眼淚。因為我想起了我一百歲的阿嬤，承受著身體的病痛時，能夠為她按摩，看著她慢慢放鬆、沉沉睡去的模樣。</p>
+        <p class="body-text" style="margin-bottom:0;">原來，碰觸不只是碰觸。有時候，那是一種溫柔的陪伴。</p>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-mark">&ldquo;</div>
+        <p class="body-text">在診所按摩服務的個案中，有一位熱情可愛的大姐，從第一次來按摩，就一直對我讚不絕口說：「妳這簡直是五星級飯店的按摩呀！除了舒服，音樂好聽，又有那麼好喝的茶可以喝～」她說之前在診所這裡按，都還要自己去找水喝！</p>
+        <p class="body-text">後來她連續回來診所按了兩次，接著叫老公也來按，然後女兒也來按摩。</p>
+        <p class="body-text">今天——大姐對我說了一句話，感動得肺腑人心。她說：「給其他人按，只有痛點放鬆，但妳的按摩會讓人感到整個人，整個身心靈都放鬆」～～（完全說中 Lomi Lomi 的精髓！！）</p>
+        <p class="body-text">「你知道嗎？現在人要放鬆多難呀！我女兒醫學院工作壓力大，精神每天繃得緊緊的，看的我都心疼了！你趕緊幫她按摩～」</p>
+        <p class="body-text">接著，幫這位女孩按摩完後，看見她睜開眼睛的那瞬間，整個人看起來都容光煥發的。她身心舒暢的模樣說著——這按摩太舒服了。</p>
+        <p class="body-text">接著又說著，肩頸被按得好舒暢，都鬆開了～肚子也按得好舒服，頭部臉部全部都好舒服好喜歡。我也好喜歡你的按摩音樂（哈～這點真的很常被誇讚！）最後的頌缽聲音在我耳邊環繞，這聲音好療癒～整個都太喜歡了！</p>
+        <p class="body-text">然後，跟媽媽一樣熱情地說著，趕緊叫妹妹也來按，我男朋友我也要幫他預約！！</p>
+        <p class="body-text">最後，再補一句：「阿姨～～我好想每週日都給妳按摩！」（醫學院的孩子，真的壓力頗大的）</p>
+        <p class="body-text" style="margin-bottom:0;">我似乎變成這可愛一家人的御用按摩師了！！</p>
+        <div class="testimonial-source">—— 一位個案的分享</div>
+      </div>
+
+      <div class="coming-soon">
+        <svg class="icon" viewBox="0 0 64 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 40 Q 16 20, 32 40 T 60 40" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="M4 20 L4 40 M60 20 L60 40" stroke="currentColor" stroke-width="5" stroke-linecap="round" opacity="0.5"/>
+        </svg>
+        <p>更多日記持續更新中。</p>
+        <p class="sub">之後會陸續放上客人回饋、日常紀錄與療程心得</p>
+      </div>
+    </div>
+  </section>
+
+  <svg class="wave" viewBox="0 0 1440 60" preserveAspectRatio="none">
+    <path d="M0,30 C240,0 480,60 720,40 C960,20 1200,50 1440,30 L1440,0 L0,0 Z" fill="#eef5f4"/>
+  </svg>
+
+  <section id="testimonial">
+    <div class="wrap">
+      <span class="section-eyebrow">TESTIMONIAL</span>
+      <h2><svg class="h2-star" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 C13 8 14 10 21 12 C14 14 13 16 12 22 C11 16 10 14 3 12 C10 10 11 8 12 2 Z"/></svg>來自每雙手與心的回饋</h2>
+      <img class="testimonial-photo" src="照片/個案回饋/feedback 2.jpg" alt="Feedback">
+
+      <div class="testimonial-card">
+        <div class="testimonial-mark">&ldquo;</div>
+        <p class="body-text">那段 Lomi Lomi 療癒時光，深深觸動著我，即使已經過了快一個月。</p>
+        <p class="body-text">走進城市裡的家屋，有舒心的精油擴香，和小木屋感的安穩氣息，像午後夢遊，掉進森林裡的樹洞。</p>
+        <p class="body-text">第一次體驗 Lomi Lomi 夏威夷療癒按摩，那天趴在療程床，先是熟悉的藥草球作為鬆鬆的開場，溫暖而接地。</p>
+        <p class="body-text">而後是祝福的唱頌與放鬆的引導，像是騰出空間，暫時把塵事都放下。當椰子油的氣味蔓延開來，音樂像潮水一樣緩緩流進空間。</p>
+        <p class="body-text">雙手的節奏和韻律，像海浪，一波推來，一波退回去，身體，慢慢一層一層被晃動、鬆動開來。</p>
+        <p class="body-text">想起好久沒去的台東海邊，安心地吹著海風，聽浪潮聲，無所事事地發著呆，沒有需要擔心的人和事。</p>
+        <p class="body-text">療癒我的，也是一位媽媽。在成為 Lomi Lomi 療癒師之前，是瑜伽老師，利用育兒的瑣碎時光，以植物為創作的媒材與靈感，編織著自然與光的藝術。</p>
+        <p class="body-text">現在，她重回身體工作，把海洋帶進板橋的森林家屋裡，讓每一個人，都能去到她們心底的那片海。</p>
+        <p class="body-text" style="margin-bottom:0;">在板橋森林家屋裡的 Lomi Lomi 按摩療癒體驗，從空間的氛圍到療程的始末，有許多驚喜的細節，深具創造與啟發，就不一一詳談，留待大家親身去感受。</p>
+        <div class="testimonial-source">—— 一位個案的分享</div>
+      </div>
+
+      <div class="testimonial-card">
+        <div class="testimonial-mark">&ldquo;</div>
+        <p class="body-text">在妳的觸碰中，我感覺到被愛。我十分確定，那不是妳的手溫，是一股炙熱的能量。</p>
+        <p class="body-text">在妳雙手搭在我肩膀的那一刻，像是對我說聲：嘿，妳值得被好好善待。</p>
+        <p class="body-text">在妳雙手觸碰我雙膝的時候，我知道，我是被支撐著。而腳踝穩穩地被妳接住。</p>
+        <p class="body-text">胸口的氣，也許還有點卡住，但是每一次都能更鬆開。</p>
+        <p class="body-text">特別喜歡四肢被抬起來的感覺，尤其是手臂的浪花一波比一波高，最後刷一聲，投降姿勢，釋放。</p>
+        <p class="body-text">也很喜歡最後海浪沖向上半身，有種快被淹沒浪的感覺，然後，再慢慢地退潮。</p>
+        <p class="body-text">最後的頌缽，是更深層次的放鬆。</p>
+        <p class="body-text">在妳說慢慢將意識拉回這個空間，我才驚覺，自己是在哪裡呢？我剛才飄在宇宙裡嗎？喔！該回歸現實了。好像做了一場神奇又療癒的夢。</p>
+        <p class="body-text">真的好喜歡這次的 lomi lomi 初體驗。最後抽到的牌卡也超神準，當下的力量是我這兩年一直練習的課題，沒想到貼心的宇宙，還特別提醒我。真是太棒了！</p>
+        <p class="body-text" style="margin-bottom:0;">謝謝妳，謝謝。</p>
+        <div class="testimonial-source">—— Dear 精靈</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <svg class="footer-star" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 C13 8 14 10 21 12 C14 14 13 16 12 22 C11 16 10 14 3 12 C10 10 11 8 12 2 Z"/></svg>
+    <p class="invite">如果你也想留一段時間陪伴自己</p>
+    <div class="cta-row">
+      <a class="ig-btn secondary" href="https://instagram.com/light_hand_lomilomi" target="_blank" rel="noopener">聯絡我</a>
+      <a class="ig-btn" href="index.html#booking">預約</a>
+    </div>
+    <br>
+    <a class="back-home" href="index.html">← 回首頁看療程資訊</a>
+    <img class="logo-mark" src="light_hand_logo_white.png" alt="Light Hand 光之手 logo">
+    <div class="handle">@light_hand_lomilomi</div>
+  </footer>
+
+</body>
+</html>
