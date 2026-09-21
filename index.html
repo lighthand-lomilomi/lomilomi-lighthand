@@ -143,10 +143,19 @@
     justify-content: center;
     cursor: pointer;
     box-shadow: 0 4px 14px rgba(44,95,111,0.2);
-    font-size: 18px;
   }
 
   .sound-toggle:active { transform: scale(0.94); }
+
+  .sound-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .sound-icon .wave-on { opacity: 0; }
+  .sound-icon .wave-off { opacity: 1; }
+  .sound-toggle.is-on .sound-icon .wave-on { opacity: 1; }
+  .sound-toggle.is-on .sound-icon .wave-off { opacity: 0; }
 
   .doodle {
     position: absolute;
@@ -445,8 +454,15 @@
     <button class="sound-toggle" id="soundToggle" aria-label="開啟／關閉背景海浪聲" onclick="
       const v = document.getElementById('heroVideo');
       v.muted = !v.muted;
-      this.textContent = v.muted ? '🔇' : '🔊';
-    ">🔇</button>
+      this.classList.toggle('is-on', !v.muted);
+    ">
+      <svg class="sound-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 9.5v5h3.2l5 4V5.5l-5 4H4Z" fill="currentColor"/>
+        <path class="wave wave-off" d="M15.5 9l5 6M20.5 9l-5 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path class="wave wave-on" d="M15.8 9.3a4.2 4.2 0 0 1 0 5.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+        <path class="wave wave-on" d="M18.3 7.2a7.6 7.6 0 0 1 0 9.6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" fill="none"/>
+      </svg>
+    </button>
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <img class="doodle d-hero" src="doodle_star_moon.png" alt="">
